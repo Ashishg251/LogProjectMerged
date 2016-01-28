@@ -1,3 +1,19 @@
+/*Copyright 2016 Wipro Limited, NIIT Limited
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday Kumar Mydam, Nirup TNL, Sandeep Reddy G, Deepak Kumar*/
+
 
 /* Navbar styling start */
 .navbar-default{
@@ -12,7 +28,6 @@
   font-size: 21px;
   padding-left: 6px !important;
   color:#ffffff !important;
-  text-shadow: 2px 2px 2px #CC3300;
 }
 .navbar-right{
   margin-right: 0px;
@@ -25,11 +40,15 @@
   color:#fff !important;
 }
 
+a.home{
+  padding-bottom: 20px !important;
+}
 .navbar-nav a.nginx {
     border: 1px solid white;
     background-color: white !important;
     color: #333 !important;
-    padding-bottom: 17px;
+    padding-bottom: 18px;
+    margin-left: 10px;
 }
 
 .navbar-nav a.nginx:hover{
@@ -113,6 +132,23 @@ div.aboutusContainer {
 }
 .wrap .well {
   margin: 20px;
+  overflow-x: scroll;
+}
+
+.well::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.well::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
+    border-radius: 8px;
+}
+
+.well::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 8px;
+  outline: 1px solid slategrey;
 }
 .wrap svg{
   display: block;
@@ -124,10 +160,10 @@ div.aboutusContainer {
   background-color:#337ab7 !important;
   padding-bottom: 18px;
 }
-.navbar-nav li.active a{
+/*.navbar-nav li.active a{
   background-color: #38474e !important;
   color:#fff !important;
-}
+}*/
 .filters .dropdown {
   display : inline-block;
 }
@@ -189,7 +225,7 @@ div.aboutusContainer {
 }
 .logcontainer{
   margin-top: 0px;
-  font-size: 0.83em;
+  font-size: 0.80em;
   font-family: sans-serif;
   padding: 0;
   line-height: 40px;
@@ -312,8 +348,8 @@ td, tr, th{
   text-align: center;
 }
 
-.headings{
-  font-weight: bolder;
+.logListingDataHeadings{
+  font-weight: bold !important;
 }
 
 /*----------------------------------------------logListing Stylesheet end------------------------------------------------------------*/
@@ -329,7 +365,7 @@ td, tr, th{
   color: grey;
 }
 #dropdownMenu2{
-  width: 100px;
+  width: 120px;
 }
 .dropdown.months{
   width: 50px;
@@ -440,6 +476,9 @@ serverdown{
 .login-main{
   background-image: url("http://www.qhpress.org/quakerpages/qwhp/paper.gif");
 }
+/*.login-main{
+  background-image: url("../images/data.jpg");
+}*/
 .login-page{
   width: 100%;
   background-color: #222;
@@ -475,7 +514,7 @@ serverdown{
 .login-tabbable{
   width: 40%;
   margin: auto;
-  margin-top: 60px;
+  padding-top: 60px;
 
 }
 .login-tabbable input{
@@ -656,10 +695,19 @@ h4.error{
 }
 
 @media (max-width: 900px){
-  .tab-pane h2 {
+  /*.tab-pane h2 {
     display: none;
-  }
-  .filters{
+  }*/
+  /*.filters{
     float: left;
+  }*/
+}
+
+@media (max-width: 900px){
+  .logcontainer{
+    font-size: 0.60em !important;
+  }
+  .btn{
+    font-size: 16px !important;
   }
 }

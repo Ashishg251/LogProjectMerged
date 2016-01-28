@@ -46,11 +46,10 @@ aptLogApp.config(function($routeProvider) {
         $routeProvider
             // route for the home page
             .when('/', {
-                templateUrl : 'html/components/main.html'
+              templateUrl : 'javascripts/aptCache/logRate/views/allLogs.html',
+              controller: 'logRateController'
             })
-            .when('/home',{
-                templateUrl: 'html/components/main.html'
-            })
+
             .when('/requestrate', {
                 templateUrl : 'javascripts/aptCache/logRate/views/allLogs.html',
                 controller: 'logRateController'

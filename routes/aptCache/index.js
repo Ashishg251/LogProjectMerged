@@ -8,8 +8,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Home' });
 });
 
-router.get('/nginx', function(req, res, next) {
-  res.render('nginx', { title: 'nginx' });
+router.get('/AptGet', function(req, res, next) {
+  res.render('AptGet.ejs', { title: 'Apt-Get' });
 });
 
 module.exports = router;
