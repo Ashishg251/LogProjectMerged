@@ -49,6 +49,26 @@ angular.module('logAggregator').config(['$routeProvider',
       templateUrl : 'javascripts/auth/views/error.view.html',
       controller : 'errorHandlerController'
     })
+    .when('/requestrate', {
+        templateUrl : 'javascripts/aptCache/logRate/views/allLogs.html',
+        controller: 'logRateController'
+    })
+    .when('/packageanalytics', {
+        templateUrl : 'javascripts/aptCache/packageAnalytics/views/packageAnalytics.html',
+        controller: 'packageAnalyticsController'
+    })
+    .when('/requestdata', {
+        templateUrl : 'javascripts/aptCache/dataRate/views/allData.html',
+        controller: 'dataRateController'
+    })
+    .when('/packagerepository', {
+      templateUrl : 'javascripts/aptcache/packageRepository/views/packageRepository.html',
+        controller: 'repositoryController'
+    })
+    .when('/packagecount', {
+        templateUrl : 'javascripts/aptCache/packageCount/views/packageCount.html',
+        controller: 'packageCountController'
+    })
     .otherwise({
       redirectTo : '/',
       controller : 'errorHandlerController'

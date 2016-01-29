@@ -21,8 +21,8 @@ This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday
 <!-- **Displaying all paths **********************************************************  -->
 
 <div class="logcontainer" >
-<img class="LogProgressIcon" ng-show="showLogProgress" src="svg/cube.svg" alt="progress">
- <table ng-hide="showLogProgress">
+  <img class="LogProgressIcon" ng-show="showLogProgress" src="svg/cube.svg" alt="progress">
+  <table ng-hide="showLogProgress">
     <tr>
       <td>
         <button ng-class = "{btn: true,'withBorder': (view == 'All'), 'btn-default': true , 'OnMouseEnter':hover} "ng-click = 'pathClickEvent("All")' class = "logButtonStyle" ng-mouseenter = "hover = true" ng-mouseleave = "hover = false">
@@ -40,10 +40,10 @@ This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday
         </button>
       </td>
     </tr>
- </table>
+  </table>
 </div>
 
- <!-- **Displaying data for selected path *************************************************  -->
+<!-- **Displaying data for selected path *************************************************  -->
 
 <div class="PathDataTable" >
   <img class="LogProgressIcon" ng-show="showLogDataProgress" src="svg/cube.svg" alt="progress">
@@ -73,7 +73,7 @@ This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday
 
   </table>
 
-<!-- Pagenation ************************************************************************ -->
+  <!-- Pagenation ************************************************************************ -->
 
   <div ng-hide="showLogDataProgress">
     <span ng-if = "(no_of_pgs > 1)" ng-repeat = "pg in getPgs(no_of_pgs) track by $index">

@@ -49,7 +49,6 @@ aptLogApp.config(function($routeProvider) {
               templateUrl : 'javascripts/aptCache/logRate/views/allLogs.html',
               controller: 'logRateController'
             })
-
             .when('/requestrate', {
                 templateUrl : 'javascripts/aptCache/logRate/views/allLogs.html',
                 controller: 'logRateController'

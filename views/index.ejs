@@ -15,114 +15,160 @@ limitations under the License.
 This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday Kumar Mydam, Nirup TNL, Sandeep Reddy G, Deepak Kumar -->
 
 <!DOCTYPE html>
-<html xmlns:ng="http://angularjs.org" ng-controller='mainController' ng-init="showContent=false">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Tattva</title>
+<html xmlns:ng="http://angularjs.org" ng-controller='mainController' ng-init="showContent = false; nginxLogStatistics = true">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tattva</title>
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="javascripts/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.css" type="text/css">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="javascripts/lib/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="styles/style.css">
-  <script type="text/javascript" src="/javascripts/lib/angular/angular.js"></script>
-  <script type="text/javascript" src="/javascripts/lib/angular-route/angular-route.js"></script>
-  <script type="text/javascript" src="/javascripts/lib/angular-cookies/angular-cookies.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/aptCache/graphs.css">
 
-  <script src="javascripts/lib/d3/d3.min.js"></script>
-</head>
-<body>
+    <!-- javacsripts -->
+    <script type="text/javascript" src="/javascripts/lib/angular/angular.js"></script>
+    <script type="text/javascript" src="/javascripts/lib/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="/javascripts/lib/angular-cookies/angular-cookies.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/3.0.7/ui-grid.min.js"></script>
+    <script src="javascripts/lib/d3/d3.min.js"></script>
+  </head>
+  <body>
 
     <div class="homepage">
-    <!--nav bar start -------->
-    <div class="container-fluid">
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-target=".navbar-responsive-collapse" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand logo" href="/#/">Tattva</a>
-        </div>
-        <div class="navbar-collapse collapse navbar-responsive-collapse">
-          <ul class="nav navbar-nav">
-            <li ng-class="{active: (tab == 'logListing')}"><a ng-href="#logListing" ng-click="tab='logListing'" class="home">Home <i class="fa fa-home fa-fw"></i></a>
-            </li>
-            <li ng-class="{active: (clicked == 'aboutus')}">
-              <a ng-click="aboutus()" class="btn btn-link">About us</a>
-            </li>
-            <li class="dropdown">
-              <!-- <div class="dropdown"> -->
+      <!--nav bar start -------->
+      <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-target=".navbar-responsive-collapse" data-toggle="collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand logo" href="/#/">Tattva</a>
+          </div> <!-- end navbar-header -->
+
+          <div class="navbar-collapse collapse navbar-responsive-collapse">
+
+            <ul class="nav navbar-nav">
+              <li ng-class="{active: (tab == 'logListing')}">
+                <a ng-href="#logListing" ng-click="tab='logListing'" class="home">
+                  Home <i class="fa fa-home fa-fw"></i>
+                </a>
+              </li>
+              <li ng-class="{active: (clicked == 'aboutus')}">
+                <a ng-click="aboutus()" class="btn btn-link">
+                  About us <i class="fa fa-book fa-fw"></i>
+                </a>
+              </li>
+              <li class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                  Dashboard
-                  <span class="caret"></span>
+                  Dashboard <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                  <li><a href="/aptCache">Apt Log Statistics</a></li>
+                  <li><a href="#requestrate" ng-click="aptLogStatistics = true; nginxLogStatistics = false">Apt Log Statistics</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a href="#logListing">Nginx Log Statistics</a></li>
+                  <li><a href="#logListing" ng-click="nginxLogStatistics = true; aptLogStatistics = false">Nginx Log Statistics</a></li>
                 </ul>
-              <!-- </div> -->
-            </li>
+              </li>
+            </ul> <!-- end navbar-nav -->
 
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="" >
-              <a ng-href="#changePassword" class="change-pass btn btn-link">
-              Change Password <i class="fa fa-unlock"></i></a></li>
-            <li class="" ><a class="btn btn-link" ng-click="logout()">Logout <i class="fa fa-power-off fa-fw"></i></a></li>
-          </ul>
-        </div>
-      </div>
-    </nav><!-- Navbar End-->
-    </div>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="" >
+                <a ng-href="#changePassword" class="change-pass btn btn-link">
+                  Change Password <i class="fa fa-unlock"></i>
+                </a>
+              </li>
+              <li class="" >
+                <a class="btn btn-link" ng-click="logout()">
+                  Logout <i class="fa fa-power-off fa-fw"></i>
+                </a>
+              </li>
+            </ul> <!-- end navbar-right -->
 
-    <div class="container-fluid ">
+          </div> <!-- end navbar-responsive-collapse -->
+        </nav> <!-- end Nav -->
+      </div> <!-- end container-fluid -->
+    </div> <!-- end homepage -->
+
+    <div class="container-fluid" ng-if="aptLogStatistics">
       <div class="tabbable" id="main-tab">
         <div class="homepage watchlist-tabs ng-cloak">
-        <ul class="nav nav-tabs" >
-          <li ng-class="{active: (tab == 'logListing')}"><a ng-href="#logListing" ng-click="tab='logListing'">Log Listing</a></li>
-          <li ng-class="{active: (tab == 'agentAnalytics')}"><a ng-href="#agentAnalytics" ng-click="tab='agentAnalytics'">User Agent</a></li>
-          <li ng-class="{active: (tab == 'requestRate')}"><a ng-href="#requestRate" ng-click="tab='requestRate'">Request Rate</a></li>
-        </ul>
-      </div>
-        <div class="tab-pane" ng-view="">
-        </div>  <!-- end tab-pane -->
-      </div>
-    </div>
-
-  <!-- All Javascript at the bottom of the page for faster page loading -->
-
-  <script src="javascripts/lib/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap JS -->
-  <script src="javascripts/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-
-  <script src="javascripts/lib/d3-legend/d3-legend.min.js"></script>
-  <script src="javascripts/lib/d3-tip/index.js"></script>
+          <ul class="nav nav-tabs" >
+            <li><a ng-href="#requestrate">Request Rate</a></li>
+            <li><a ng-href="#requestdata">Data Rate</a></li>
+            <li><a ng-href="#packagecount">Package Count</a></li>
+            <li><a ng-href="#packageanalytics">Package Analytics</a></li>
+            <li><a ng-href="#packagerepository">Package Repository</a></li>
+          </ul>
+        </div> <!-- end watchlist-tabs -->
+        <div class="tab-pane" ng-view=""></div> <!-- end tab-pane -->
+      </div> <!-- end tabbable -->
+    </div> <!-- end container-fluid -->
 
 
+    <div class="container-fluid" ng-if="nginxLogStatistics">
+      <div class="tabbable" id="main-tab">
+        <div class="homepage watchlist-tabs ng-cloak">
+          <ul class="nav nav-tabs" >
+            <li ng-class="{active: (tab == 'logListing')}"><a ng-href="#logListing" ng-click="tab='logListing'">Log Listing</a></li>
+            <li ng-class="{active: (tab == 'agentAnalytics')}"><a ng-href="#agentAnalytics" ng-click="tab='agentAnalytics'">User Agent</a></li>
+            <li ng-class="{active: (tab == 'requestRate')}"><a ng-href="#requestRate" ng-click="tab='requestRate'">Request Rate</a></li>
+          </ul>
+        </div> <!-- end watchlist-tabs -->
+        <div class="tab-pane" ng-view=""></div> <!-- end tab-pane -->
+      </div> <!-- end tabbable -->
+    </div> <!-- end container-fluid -->
 
-  <script type="text/javascript" src="/javascripts/application.js"></script>
-  <script type="text/javascript" src="/javascripts/logAggregator.controller.js"></script>
-  <script type="text/javascript" src="/javascripts/auth/controllers/auth.controller.js"></script>
-  <script type="text/javascript" src="/javascripts/auth/controllers/changePasswordController.js"></script>
-  <script type="text/javascript" src="/javascripts/nginx/userAgent/directives/agentPieChart.directive.js"></script>
-  <script type="text/javascript" src="/javascripts/nginx/userAgent/services/userAgent.service.js"></script>
-  <script type="text/javascript" src="/javascripts/nginx/userAgent/controllers/userAgent.controller.js"></script>
-  <script src="/javascripts/nginx/trafficRate/directives/trafficRate.directive.js" ></script>
-  <script type="text/javascript" src="/javascripts/nginx/trafficRate/services/trafficRate.service.js"></script>
-  <script type="text/javascript" src="/javascripts/nginx/trafficRate/controllers/trafficRate.controller.js"></script>
-  <script type="text/javascript" src="/javascripts/auth/controllers/aboutusController.js"></script>
+    <!-- All Javascript at the bottom of the page for faster page loading -->
 
-  <script type="text/javascript" src="/javascripts/logAggregator.routes.js"></script>
-  <script type="text/javascript" src="/javascripts/logAggregator.service.js"></script>
+    <script src="javascripts/lib/jquery/dist/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="javascripts/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
-  <script type="text/javascript" src="/javascripts/nginx/logListing/services/logServices.js"></script>
-  <script type="text/javascript" src="/javascripts/nginx/logListing/controllers/logListing.controller.js"></script>
-  <script type="text/javascript" src="/javascripts/nginx/logListing/filters/logListingFilters.js"></script>
+    <script src="javascripts/lib/d3-legend/d3-legend.min.js"></script>
+    <script src="javascripts/lib/d3-tip/index.js"></script>
 
-</body>
+    <script type="text/javascript" src="/javascripts/application.js"></script>
+    <script type="text/javascript" src="/javascripts/logAggregator.controller.js"></script>
+    <script type="text/javascript" src="/javascripts/auth/controllers/auth.controller.js"></script>
+    <script type="text/javascript" src="/javascripts/auth/controllers/changePasswordController.js"></script>
+    <script type="text/javascript" src="/javascripts/nginx/userAgent/directives/agentPieChart.directive.js"></script>
+    <script type="text/javascript" src="/javascripts/nginx/userAgent/services/userAgent.service.js"></script>
+    <script type="text/javascript" src="/javascripts/nginx/userAgent/controllers/userAgent.controller.js"></script>
+    <script src="/javascripts/nginx/trafficRate/directives/trafficRate.directive.js" ></script>
+    <script type="text/javascript" src="/javascripts/nginx/trafficRate/services/trafficRate.service.js"></script>
+    <script type="text/javascript" src="/javascripts/nginx/trafficRate/controllers/trafficRate.controller.js"></script>
+    <script type="text/javascript" src="/javascripts/auth/controllers/aboutusController.js"></script>
+
+    <script type="text/javascript" src="/javascripts/logAggregator.routes.js"></script>
+    <script type="text/javascript" src="/javascripts/logAggregator.service.js"></script>
+
+    <script type="text/javascript" src="/javascripts/nginx/logListing/services/logServices.js"></script>
+    <script type="text/javascript" src="/javascripts/nginx/logListing/controllers/logListing.controller.js"></script>
+    <script type="text/javascript" src="/javascripts/nginx/logListing/filters/logListingFilters.js"></script>
+
+    <script src="../javascripts/lib/modernizr-2.6.2.min.js"></script>
+    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/logApp.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/dataRate/controllers/dataRateController.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/logRate/controllers/logRateController.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/packageAnalytics/controllers/packageAnalyticsController.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/packageCount/controllers/packageCountController.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/packageRepository/controllers/repositoryController.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/filters/addParaFilter.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/services/ajaxService.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/logRate/graph/rateGraphCode.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/dataRate/graph/dataGraphCode.js"></script>
+    <script type="text/javascript" src="../javascripts/aptCache/directives/controllers/dropDownElement.js"></script>
+
+
+  </body>
 </html>

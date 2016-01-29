@@ -28,8 +28,7 @@ function($scope,$cookies,$location, $rootScope, logService, $interval) {
   logService.getPath_count().then(function(response) {
     $scope.Path_Count = response.data.arr;
   });
-  var onComplete =
-  $interval(function(){
+  var onComplete =  $interval(function(){
       if($scope.$parent.tab == 'logListing') {
         logService.getPath_count().then(function(response) {
           if(!angular.equals($scope.Path_Count, response.data.arr)) {
