@@ -29,7 +29,7 @@ This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday
           </a>
         </li>
       </ul>
-    </div>
+    </div> <!-- end dropdown year_text -->
 
     <div class="dropdown month_text">
       <button  ng-disabled="monthMenu" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -43,11 +43,14 @@ This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday
         <!-- <img src="images/crossCircle.png" alt="cross circle"> -->
         <i class="fa fa-times"></i>
       </a>
-    </div>
+    </div> <!-- end dropdown month_text -->
+
     <a  ng-disabled="clearSwitch" ng-click="clearFilters()"  ng-right-click="decrement()" class="btn btn-link" id="clear_filters" >Clear All</a>
-</div>
-</div>
+  </div> <!-- end filters pull-right -->
+</div> <!-- end filters pull-right -->
+
 <div><g></g></div>
+
 <div class="load"><img class="trafficProgressIcon" ng-show="showProgress" src="svg/cube.svg" alt="progress"></div>
 <serverdown></serverdown>
 <div class="traffic well"> <traffic-rate-directive data="trafficData" year="yearSelected" month="monthValue"></traffic-rate-directive></div>

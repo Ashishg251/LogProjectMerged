@@ -20,7 +20,22 @@ angular.module('logAggregator').controller('mainController', ['$scope','$cookies
       loadConfig.getdata( function(data) {
         $scope.config = data;
         $window.config = $scope.config;
-    });
+      });
+
+      $scope.aptLogTabs=['Request Rate','Data Rate','Package Count','Package Analytics','Package Repository'];
+      $scope.nginxLogTabs=['Log Listing','User Agent','Traffic Rate'];
+      var aptLogLinks={
+        '/requestrate':"aptLogStatistics",
+        '/datarate':"aptLogStatistics",
+        '/packagecount':"aptLogStatistics",
+        '/packageanalytics':"aptLogStatistics",
+        '/packagerepository':"aptLogStatistics"
+      };
+      var angularRoute=$location.$$path;
+      $scope.selection=aptLogLinks[angularRoute];
+
+
+    // $scope.selection="nginxLogStatistics";
     // $scope.changePasswordController=function(){
     //
     //   $location.path('/changePassword');
