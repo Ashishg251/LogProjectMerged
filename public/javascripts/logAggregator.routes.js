@@ -33,15 +33,15 @@ angular.module('logAggregator').config(['$routeProvider',
       templateUrl : 'javascripts/auth/views/aboutus.view.html',
       controller: 'aboutusController'
     })
-    .when('/agentAnalytics', {
+    .when('/useragent', {
       templateUrl : 'javascripts/nginx/userAgent/views/userAgent.view.html',
       controller : 'userAgentController'
     })
-    .when('/logListing', {
+    .when('/loglisting', {
       templateUrl : 'javascripts/nginx/logListing/views/logListing.view.html',
       controller : 'logController'
     })
-    .when('/requestRate', {
+    .when('/trafficrate', {
       templateUrl : 'javascripts/nginx/trafficRate/views/trafficRate.view.html',
       controller : 'trafficRateController'
     })
