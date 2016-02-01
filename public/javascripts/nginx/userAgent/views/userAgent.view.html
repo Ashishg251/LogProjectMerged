@@ -15,8 +15,8 @@ limitations under the License.
 This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday Kumar Mydam, Nirup TNL, Sandeep Reddy G, Deepak Kumar -->
 
 <div class="btn-group-vertical criteriaGroup" role="group" aria-label="...">
-  <button type="button" ng-class="{btn: true, 'btn-default':true, 'criteriaPane':true, 'withBorder': (agentCriteria == 'browser')}" value=browser id="browserShare" ng-click="renderData('browser')">Browser Share</button>
-  <button type="button" ng-class="{btn: true, 'btn-default':true, 'criteriaPane':true, 'withBorder': (agentCriteria == 'os')}" value=os id="osShare" ng-click="renderData('os')">OS Share</button>
+  <button type="button" ng-class="{btn: true, 'btn-default':true, 'criteriaPane':true, 'withBorder': (agentCriteria == 'browser')}" class="userAgentShare"value=browser id="browserShare" ng-click="renderData('browser')">Browser Share</button>
+  <button type="button" ng-class="{btn: true, 'btn-default':true, 'criteriaPane':true, 'withBorder': (agentCriteria == 'os')}" class="userAgentShare"value=os id="osShare" ng-click="renderData('os')">OS Share</button>
 </div>
 <div class="wrap" ng-init = "tab = 'agentAnalytics'">
   <div class="page-header">

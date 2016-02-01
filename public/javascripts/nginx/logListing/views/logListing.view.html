@@ -25,14 +25,14 @@ This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday
   <table ng-hide="showLogProgress">
     <tr>
       <td>
-        <button ng-class = "{btn: true,'withBorder': (view == 'All'), 'btn-default': true , 'OnMouseEnter':hover} "ng-click = 'pathClickEvent("All")' class = "logButtonStyle" ng-mouseenter = "hover = true" ng-mouseleave = "hover = false">
+        <button ng-class = "{btn: true,'withBorder': (view == 'All'), 'btn-default': true , 'OnMouseEnter':hover} "ng-click = 'pathClickEvent("All")' class = "logButtonStyle nginxButton" ng-mouseenter = "hover = true" ng-mouseleave = "hover = false">
             Most Visited Paths
         </button>
       </td>
     </tr>
     <tr ng-repeat="obj in Path_Count">
       <td>
-        <button ng-click= 'pathClickEvent(obj)' class = "logButtonStyle" ng-class = "{btn: true, 'btn-default':true, 'withBorder': (obj.path == currentpath ), 'OnMouseEnter': hovered}" ng-mouseenter = "hovered = true" ng-mouseleave = "hovered = false" ng-cloak>
+        <button ng-click= 'pathClickEvent(obj)' class = "logButtonStyle nginxButton" ng-class = "{btn: true, 'btn-default':true, 'withBorder': (obj.path == currentpath ), 'OnMouseEnter': hovered}" ng-mouseenter = "hovered = true" ng-mouseleave = "hovered = false" ng-cloak>
             {{obj.path}}
               <span ng-cloak>
                  ({{obj.count}})
