@@ -208,7 +208,7 @@
     h2 {
       text-align: center;
       font-family: 'Alegreya', serif;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
     }
 
     .dropdown-menu{
@@ -294,9 +294,11 @@
   }
 #moreInfo {
   margin-top: -100px;
+  margin-left: 10px;
 }
 #moreInfo p{
-  padding: 10px;
+
+  padding-right: 10px;
 }
 #para {
   font-family: 'Alegreya', serif;
