@@ -34,13 +34,18 @@ angular.module('logAggregator').controller('mainController', ['$scope','$cookies
       var angularRoute=$location.$$path;
       $scope.selection=aptLogLinks[angularRoute];
 
-
+      $scope.dashName = "Dashboard";
     // $scope.selection="nginxLogStatistics";
     // $scope.changePasswordController=function(){
     //
     //   $location.path('/changePassword');
     // }
-
+    $scope.setDashName = function(val){
+      $scope.dashName = val;
+    }
+    $scope.setSelection=function(selection_name){
+        $scope.selection = selection_name;
+    }
     $scope.aboutus=function(){
       var watchlist=document.getElementsByClassName('watchlist-tabs');
       angular.element(watchlist).css('display','none');

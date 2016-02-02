@@ -70,12 +70,14 @@ This code is written by Prateek Reddy Yammanuru, Shiva Manognya Kandikuppa, Uday
               </li>
               <li class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                  Dashboard <span class="caret"></span>
+                  {{dashName}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                  <li><a href="#requestrate" ng-click="selection='aptLogStatistics'">Apt Log Statistics</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#logListing" ng-click="selection='nginxLogStatistics'">Nginx Log Statistics</a></li>
+                  <li ng-repeat="value in config.dashboard">
+                    <a href="{{value.target}}" ng-click="setSelection(value.selection);setDashName(value.name);">
+                      {{value.name}}
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul> <!-- end navbar-nav -->
