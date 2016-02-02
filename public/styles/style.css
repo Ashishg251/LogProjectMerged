@@ -412,16 +412,16 @@ td, tr, th{
   color: grey;
 }
 
-.dropdown.month_text,.dropdown.year_text,.crossMonthFilter{
+/*.dropdown.month_text,.dropdown.year_text,.crossMonthFilter{
   float: left;
   padding: 10px;
   margin-top: 10px
-}
+}*/
 .dropdown.month_text{
   padding-right: 0px;
 }
 #clear_filters{
-  padding: 26px 10px 10px 0px;
+  padding: 10px 10px 10px 0px;
   color: #333;
 }
 /*.crossMonthFilter{

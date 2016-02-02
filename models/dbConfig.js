@@ -9,7 +9,6 @@ var serverSchema = require('./log.server.model');
 var configSchema = require('./log.config.model');
 var aptLogSchema = require('./logSchema');
 var aptConfigSchema = require('./configSchema');
-//console.log(userSchema);
 
 module.exports = {
   userModel : db1.model('User',userSchema),
