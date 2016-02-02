@@ -226,9 +226,9 @@ div.aboutusContainer {
 .noBorder {
   border-left: 0px !important;
 }
-.withBorder {
+/*.withBorder {
   border-left : 4px solid blue !important;
-}
+}*/
 
 /*--------------------------------------- listing page stylesheet------------------------------------------------*/
 .logButtonStyle{
@@ -242,8 +242,8 @@ div.aboutusContainer {
   text-align: left;
   white-space: normal;
   margin-top: -0.5px;
-  color: #333;
-  background-color: #ffffff;
+  color: grey !important;
+  background-color: #ffffff !important;
 }
 .buttonClicked{
   color: blue;
@@ -318,7 +318,7 @@ table{
   width:100%;
 }
 span{
-  color:blue;
+  color:white;
 }
 .OnMouseEnter {
   background-color: lightgrey !important;
@@ -430,9 +430,20 @@ td, tr, th{
 }*/
 .btn{
    font-size: 14px !important;
-   color: grey !important;
    font-weight: normal !important;
 }
+#browserShare ,#osShare{
+  margin-left: 0px;
+  color: grey ! important;
+  background-color:  white !important;
+}
+
+#browserShare:hover, #osShare:hover {
+  color: black ! important;
+  background-color:  lightgrey !important;
+}
+
+
 #clear_filters:hover{
   color:#660066;
   text-decoration: none;
