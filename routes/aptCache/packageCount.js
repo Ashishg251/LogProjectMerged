@@ -1,7 +1,7 @@
 var express = require('express');
 var fs = require('fs');
 var router = express.Router();
-//var Logs = require('../../model/logSchema');
+
 var Logs = require('../../models/dbConfig').aptLogModel;
 
 
@@ -49,6 +49,7 @@ router.get('/year/year_month/:year_month=?', function(req, res, next) {
       {
         finalresult.push(obj[item]);
       }
+      
       res.json(finalresult);
     }
   );
