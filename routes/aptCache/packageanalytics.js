@@ -21,17 +21,52 @@ var router = express.Router();
 var Logs = require('../../models/dbConfig').aptLogModel;
 
 function makeQuery(period){
-    var match = new Object();
-    dataRange = period.split('_');
-    if(dataRange.length===1){
-        match["year"]=parseInt(dataRange[0]);
+    // var match = new Object();
+    // dataRange = period.split('_');
+    //
+    // if(dataRange.length===1){
+    //     match["year"]=parseInt(dataRange[0]);
+    // }
+    // else if(dataRange.length===2){
+    //     match["year"]=parseInt(dataRange[0]);
+    //     match["month"]=dataRange[1];
+    // }
+    // return match;
+
+    var year_month = period.split('_');
+    var yearValue=parseInt(year_month[0]);
+    var monthValue=year_month[1];
+    var obj={};
+
+    var monthsArray = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    var monthPos = monthsArray.indexOf(monthValue);
+    var days = new Date(yearValue, monthPos+1, 0).getDate();
+    var startMonth = "Jan";
+    var endMonth = "Dec";
+
+    if(monthValue) {
+      startMonth = monthValue
+      endMonth = monthValue;
     }
-    else if(dataRange.length===2){
-        match["year"]=parseInt(dataRange[0]);
-        match["month"]=dataRange[1];
-    }
+
+
+    var startDate = startMonth+" 1, "+yearValue;
+    var endDate = endMonth+" "+days+", "+yearValue+" 23:59:59";
+    var startTimestamp = Date.parse(startDate)/1000;
+    startTimestamp = startTimestamp.toString();
+    var endTimestamp = Date.parse(endDate)/1000;
+    endTimestamp = endTimestamp.toString();
+    console.log(startDate," ",startTimestamp);
+    console.log(endDate," ",endTimestamp);
+
+    var match={
+      timestamp : {$gte: startTimestamp, $lte: endTimestamp}
+    };
+
+    console.log(match);
     return match;
 }
+
 function createData(result){
   var data = new Object();
   var jsonData = new Array();
@@ -67,15 +102,27 @@ function createData(result){
   }
   return jsonData;
 }
+
+// db.aptcache.aggregate([
+// {$match: {timestamp: {$gte:"1454284800", $lte:"1456790399"}}},
+// {$group: {_id: {"download":"$path"}, count: {$sum:1}}}])
+
+
 router.get('/package/:packinfo=?/:period=?',function(req,res,next){
     var packinfo = req.params.packinfo;
     var period = req.params.period;
     if(packinfo === "package_bz2_info"){
         var matchParam = makeQuery(period);
-        Logs.aggregate([{$match:matchParam},{$group:{_id: {"download":"$download"},count:{$sum:1}}}],function(err,result){
+        Logs.aggregate([
+          {$match:matchParam},
+          {$group:{_id: {"download":"$path"},count:{$sum:1}}}],
+          function(err,result){
+            // console.log(result);
             jsonData = createData(result);
             res.json(jsonData);
-        });
+          }
+        );
     }
 });
+
 module.exports = router;
