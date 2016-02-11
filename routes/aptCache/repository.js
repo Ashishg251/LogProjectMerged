@@ -25,7 +25,16 @@ var Logs = require('../../models/dbConfig').aptLogModel;
 var data=new Object();
 router.get('/:year=?/:modetype=?',function(req,res,next){
   var modetype = req.params.modetype;
-  var year = parseInt(req.params.year);
+  var yearValue = parseInt(req.params.year);
+  var startMonth = "Jan";
+  var endMonth = "Dec";
+
+  var startDate = startMonth+" 1, "+yearValue;
+  var endDate = endMonth+" 31, "+yearValue+" 23:59:59";
+  var startTimestamp = Date.parse(startDate)/1000;
+  startTimestamp = startTimestamp.toString();
+  var endTimestamp = Date.parse(endDate)/1000;
+  endTimestamp = endTimestamp.toString();
 
   function package(repo,tempObj){
     var temp={};
@@ -75,7 +84,17 @@ router.get('/:year=?/:modetype=?',function(req,res,next){
     mode = "O";
   }
   data=[];
-  Logs.aggregate([{$match :{year:year,download:{$regex:".deb$"},mode:mode}},{$group:{_id:{filename:"$download"}}}],function(err,result){
+
+  // db.aptcache.aggregate([
+  // {$match: {timestamp: {$gte:"1454284800", $lte:"1456790399"}, path:{$regex: ".deb$"}, mode:"O"}},
+  // {$group: {_id: {filename:"$path"}}}
+  // ])
+
+
+  Logs.aggregate([
+    {$match :{timestamp:{$gte:startTimestamp,$lte:endTimestamp},path:{$regex:".deb$"},mode:mode}},
+    {$group:{_id:{filename:"$path"}}}],
+    function(err,result){
 
     for(var i=0;i<result.length;i++){
     tempObj.push(result[i]["_id"]["filename"])
