@@ -15,112 +15,168 @@ limitations under the License.
 This code is written by Ashish Gupta, Tarun Mohandas, Suriya Prakash, Srinivasa Burli, Jishnu Surendran and Bhairavi Balakrishnan*/
 
 var express = require('express');
-var router = express.Router();
 var fs = require('fs');
+var router = express.Router();
 
 var Logs = require('../../models/dbConfig').aptLogModel;
 
-router.get('/size/:packagetype=?/:year=?/:datename=?',function(req,res,next){
-  var year = parseInt(req.params.year);
-  var packagetype = req.params.packagetype;
-  var datename = req.params.datename;
-  var month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  data = new Array();
-  sp = datename.split('_');
 
-  if(sp[0]==="monthwise"){
-
-    for(var i=0; i<12; i++)
-    {
-      tempObj = new Object();
-      tempObj["period"] = month[i];
-      tempObj["Input"] = 0;
-      tempObj["Output"] = 0;
-      data.push(tempObj);
+var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp * 1000);
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  timeObj = new Object();
+  timeObj["date"] = date;
+  timeObj["month"] = month;
+  timeObj["year"] = year;
+  timeObj["time"] = hour + ':' + min + ':' + sec;
+  return timeObj;
+}
+function createMonthlyData(result,year,month){
+    data = new Array();
+    var monthPos = months.indexOf(month);
+    var days = new Date(year, monthPos+1, 0).getDate();
+    for(var i=1; i<=days; i++){
+        tempObj = new Object();
+        tempObj["period"] = i;
+        tempObj["Input"] = 0;
+        tempObj["Output"] = 0;
+        data.push(tempObj);
     }
-    if(packagetype==="all")
-    {
-      match = {"year":year};
-      period= "$month";
+    var LENGTH = result.length;
+    for(var i=0; i<LENGTH; i++){
+          var timeObj = timeConverter(parseInt(result[i]["timestamp"]));
+          if(result[i]["mode"]==="I"){
+            data[timeObj["date"]-1]["Input"]+=result[i]["size"];
+          }
+          else{
+            data[timeObj["date"]-1]["Output"]+=result[i]["size"];
+          }
     }
-    else if(packagetype==="package")
-    {
-      match = {"year":year,"download":/.deb/};
-      period= "$month";
+    return data;
+}
+function createYearlyData(result){
+    data = new Array();
+    for(var i=0; i<12; i++){
+        tempObj = new Object();
+        tempObj["period"] = months[i];
+        tempObj["Input"] = 0;
+        tempObj["Output"] = 0;
+        data.push(tempObj);
     }
-    else if(packagetype==="metadata")
-    {
-      match = {"year":year,"download":{$not:/.deb/}};
-      period= "$month";
+    var LENGTH = result.length;
+    for(var i=0; i<LENGTH; i++){
+          var timeObj = timeConverter(parseInt(result[i]["timestamp"]));
+          //console.log(timeObj);
+          if(result[i]["mode"]==="I"){
+            data[months.indexOf(timeObj["month"])]["Input"]+=result[i]["size"];
+          }
+          else{
+            data[months.indexOf(timeObj["month"])]["Output"]+=result[i]["size"];
+          }
     }
-
-  }
-  else{
-    val=month.indexOf(sp[0])+1
-    len=new Date(year,val,0).getDate();
-    for(var i=1; i<=len; i++)
-    {
-      tempObj = new Object();
-      tempObj["period"] =i;
-      tempObj["Input"] = 0;
-      tempObj["Output"] = 0;
-      data.push(tempObj);
+    console.log(data);
+    return data;
+}
+function makeQuery(packageType,periodType,periodName){
+    var queryParams = new Object()
+    if(packageType==="all"){
+        if(periodType==="yearly"){
+            var starttime = Date.parse("Jan 01, "+periodName+" 00:00:00")/1000;
+            var endtime = Date.parse("Dec 31, "+periodName+" 23:59:59")/1000;
+            queryParams["timestamp"] = new Object();
+            queryParams["timestamp"]["$gte"] = starttime;
+            queryParams["timestamp"]["$lte"] = endtime;
+        }
+        else if(periodType === "monthly"){
+            periods = periodName.split("_");
+            var monthPos = months.indexOf(periods[1]);
+            var days = new Date(parseInt(periods[0]), monthPos+1, 0).getDate();
+            var starttime = Date.parse(periods[1]+" 01, "+periods[0]+" 00:00:00")/1000;
+            var endtime = Date.parse(periods[1]+" "+days+", "+periods[0]+" 23:59:59")/1000;
+            queryParams["timestamp"] = new Object();
+            queryParams["timestamp"]["$gte"] = starttime;
+            queryParams["timestamp"]["$lte"] = endtime;
+        }
     }
-    if(packagetype==="all")
-    {
-      match = {"year":year,"month":sp[0]};
-      period= "$date";
+    else if(packageType==="metadata"){
+        if(periodType==="yearly"){
+            queryParams["path"] = {$not:/.deb/};
+            var starttime = Date.parse("Jan 01, "+periodName+" 00:00:00")/1000;
+            var endtime = Date.parse("Dec 31, "+periodName+" 23:59:59")/1000;
+            queryParams["timestamp"] = new Object();
+            queryParams["timestamp"]["$gte"] = starttime;
+            queryParams["timestamp"]["$lte"] = endtime;
+        }
+        else if(periodType === "monthly"){
+            match["path"] = {$not:/.deb/};
+            periods = periodName.split("_");
+            var monthPos = months.indexOf(periods[1]);
+            var days = new Date(parseInt(periods[0]), monthPos+1, 0).getDate();
+            var starttime = Date.parse(periods[1]+" 01, "+periods[0]+" 00:00:00")/1000;
+            var endtime = Date.parse(periods[1]+" "+days+", "+periods[0]+" 23:59:59")/1000;
+            queryParams["timestamp"] = new Object();
+            queryParams["timestamp"]["$gte"] = starttime;
+            queryParams["timestamp"]["$lte"] = endtime;
+        }
     }
-    else if(packagetype==="package")
-    {
-      match = {"year":year,"month":sp[0],"download":/.deb/};
-      period= "$date";
+    else if(packageType==="package"){
+        if(periodType==="yearly"){
+            queryParams["path"] = /.deb/;
+            var starttime = Date.parse("Jan 01, "+periodName+" 00:00:00")/1000;
+            var endtime = Date.parse("Dec 31, "+periodName+" 23:59:59")/1000;
+            queryParams["timestamp"] = new Object();
+            queryParams["timestamp"]["$gte"] = starttime;
+            queryParams["timestamp"]["$lte"] = endtime;
+        }
+        else if(periodType === "monthly"){
+            queryParams["path"] = /.deb/;
+            periods = periodName.split("_");
+            var monthPos = months.indexOf(periods[1]);
+            var days = new Date(parseInt(periods[0]), monthPos+1, 0).getDate();
+            var starttime = Date.parse(periods[1]+" 01, "+periods[0]+" 00:00:00")/1000;
+            var endtime = Date.parse(periods[1]+" "+days+", "+periods[0]+" 23:59:59")/1000;
+            queryParams["timestamp"] = new Object();
+            queryParams["timestamp"]["$gte"] = starttime;
+            queryParams["timestamp"]["$lte"] = endtime;
+        }
     }
-    else if(packagetype==="metadata")
-    {
-      match = {"year":year,"month":sp[0],"download":{$not:/.deb/}};
-      period= "$date";
+    return queryParams;
+}
+router.get('/:charttype=?/:urldata=?',function(req,res,next){
+    var charttype = req.params.charttype;
+    var urldata = req.params.urldata;
+    var packageType = "";
+    var periodType = "";
+    var periodName = "";
+    var param = urldata.split("_");
+    if(param.length==2){
+        periodType = "yearly";
+        packageType = param[1];
+        periodName = param[0];
     }
-  }
- function yearly(result){
-   for(var i=0; i<result.length; i++)
-   {
-       if(result[i]["_id"]["Type"]==="I")
-       {
-           data[month.indexOf(result[i]["_id"]["period"])]["Input"]+=result[i]["size"];
-       }
-       else
-       {
-           data[month.indexOf(result[i]["_id"]["period"])]["Output"]+=result[i]["size"];
-       }
-   }
- }
- function monthly(result){
-   for(var i=0; i<result.length; i++)
-   {
-       if(result[i]["_id"]["Type"]==="I")
-       {
-           data[result[i]["_id"]["period"]-1]["Input"]+=result[i]["size"];
-       }
-       else
-       {
-           data[result[i]["_id"]["period"]-1]["Output"]+=result[i]["size"];
-       }
-   }
- }
-
-  Logs.aggregate([{$match:match},{$group:{_id: {"period":period,"Type":"$mode"},size:{$sum:"$size"}}}],function(err,result){
-
-    if(sp[0]==="monthwise"){
-      yearly(result);
+    else if(param.length==3){
+        periodType = "monthly";
+        packageType = param[2];
+        periodName = param[0]+"_"+param[1];
     }
-    else{
-      monthly(result);
-    }
-
-    res.json(data);
-  });
-
+    var queryParams = makeQuery(packageType,periodType,periodName);
+    Logs.find(queryParams,
+      function(err,result){
+        var jsonData = undefined;
+        if(periodType==="yearly"){
+            jsonData = createYearlyData(result);
+        }
+        else if(periodType==="monthly"){
+            var param = urldata.split("_");
+            jsonData = createMonthlyData(result,parseInt(param[0]),param[1]);
+        }
+        res.json(jsonData);
+      });
 });
-
 module.exports = router;

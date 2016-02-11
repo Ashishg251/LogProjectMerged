@@ -21,10 +21,10 @@ angular.module('aptLogApp').controller("dataRateController",function($scope,$htt
         $scope.requiredYear = year;
         $scope.requiredMonth = month;
         if(month===''){
-          ajaxService.ajaxCall("dataRateData","all/"+year+"/monthwise",$http);
+          ajaxService.ajaxCall("dataRateData",year+"_all",$http);
         }
         else {
-          ajaxService.ajaxCall("dataRateData","all/"+year+"/"+month,$http);
+          ajaxService.ajaxCall("dataRateData",year+"_"+month+"_all",$http);
         }
      };
      $scope.setYear = function(year){
@@ -46,10 +46,10 @@ angular.module('aptLogApp').controller("dataRateController",function($scope,$htt
      };
     $scope.filterGenerate = function(filterType,year,month){
         if($scope.requiredMonth===''){
-          ajaxService.ajaxCall("dataRateData",filterType+"/"+$scope.requiredYear+"/monthwise",$http);
+          ajaxService.ajaxCall("dataRateData",$scope.requiredYear+"_"+filterType,$http);
         }
         else {
-          ajaxService.ajaxCall("dataRateData",filterType+"/"+$scope.requiredYear+"/"+$scope.requiredMonth,$http);
+          ajaxService.ajaxCall("dataRateData",$scope.requiredYear+"_"+$scope.requiredMonth+"_"+filterType,$http);
         }
 
     };
